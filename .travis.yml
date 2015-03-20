@@ -9,6 +9,3 @@ before_script:
   - mkdir -p build/logs
 script:
   - phpunit --coverage-clover build/logs/clover.xml
-notifications:
-  email:
-    - andrzej.max.marcinkowski@gmail.com
