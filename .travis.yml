@@ -6,6 +6,3 @@ before_script:
   - npm install -g bower
   - npm install
   - composer install
-notifications:
-  email:
-    - andrzej.max.marcinkowski@gmail.com
