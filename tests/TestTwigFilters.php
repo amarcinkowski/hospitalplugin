@@ -6,6 +6,9 @@ use Punction\Entities\PatientZZ;
 use Hospitalplugin\utils\PersonGenerator;
 use Hospitalplugin\utils\Utils;
 
+/**
+ * helper class
+ */
 class PatientABC
 {
 
