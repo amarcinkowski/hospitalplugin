@@ -5,9 +5,9 @@ PHP Library used in Hospital Wordpress plugins
 
 Dev env setup
 ==================
-`npm install grunt`
-`npm install --save-dev grunt-npm-install`
-`npm install --save-dev load-grunt-tasks`
-`npm install --save-dev time-grunt`
-`grunt npm-install`
-`grunt`
+* `npm install grunt`
+* `npm install --save-dev grunt-npm-install`
+* `npm install --save-dev load-grunt-tasks`
+* `npm install --save-dev time-grunt`
+* `grunt npm-install`
+* `grunt`
