@@ -14,6 +14,9 @@
 		"vlucas/phpdotenv" : "~1.0.6",
 		"twig/twig" : "*"
 	},
+	"require-dev": {
+		"satooshi/php-coveralls": "dev-master"
+	},
 	"scripts" : {
 		"post-install-cmd" : [
 			"bower install"
