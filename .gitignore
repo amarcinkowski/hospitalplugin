@@ -1,0 +1,8 @@
+/vendor/
+/composer.phar
+/.settings/
+/.buildpath
+/.project
+/composer.lock
+/bower_components/
+/node_modules/

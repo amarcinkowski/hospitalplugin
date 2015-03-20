@@ -1,0 +1,13 @@
+{
+	"name": "hospital plugin",
+	"dependencies": 
+	{
+		"datatables": "*",
+		"fancybox": "2.1.5",
+		"bootstrap-select": "*",
+		"bootstrap-datepicker": "*",
+		"vide": "*",
+		"bootstrap-table": "*",
+		"table-export": "amarcinkowski/tableExport.jquery.plugin"
+	}
+}

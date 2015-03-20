@@ -1,0 +1,27 @@
+{
+  "name": "hospitalplugin",
+  "version": "1.0.0",
+  "description": "Punction is a tool for nurses to categorize patients.",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://siataman@wsz.git.cloudforge.com/punction.git"
+  },
+  "author": "Andrzej Marcinkowski",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-copy": "^0.6.0",
+    "grunt-contrib-nodeunit": "~0.4.1",
+    "grunt-curl": "~2.0.3",
+    "grunt-npm-install": "^0.1.0",
+    "load-grunt-tasks": "^1.0.0",
+    "time-grunt": "^1.0.0"
+  },
+  "main": "Gruntfile.js"
+}

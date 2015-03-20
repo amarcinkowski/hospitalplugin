@@ -1,0 +1,26 @@
+{
+	"autoload" : {
+		"psr-4" : {
+			"Hospitalplugin\\" : "src"
+		}
+	},
+	"name" : "amarcinkowski/hospitalplugin",
+	"type" : "library",
+	"description" : "Hospital plugins library",
+	"require" : {
+		"php" : ">=5.5",
+		"doctrine/orm" : "*",
+		"symfony/yaml" : "*",
+		"vlucas/phpdotenv" : "~1.0.6",
+		"twig/twig" : "*"
+	},
+	"scripts" : {
+		"post-install-cmd" : [
+			"bower install"
+		],
+		"post-update-cmd" : [
+			"bower install"
+		]
+	},
+	"db" : "vendor/bin/doctrine orm:schema-tool:update --force --dump-sql"
+}
