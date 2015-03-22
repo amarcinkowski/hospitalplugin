@@ -189,7 +189,7 @@ class Ward
 
     public function setTypOddzialu($typOddzialu)
     {
-        $this->$typOddzialu = $typOddzialu;
+        $this->typOddzialu = $typOddzialu;
         return $this;
     }
 

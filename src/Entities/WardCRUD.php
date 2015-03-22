@@ -23,7 +23,6 @@
  */
 namespace Hospitalplugin\Entities;
 
-use Symfony\Component\Yaml\Yaml;
 use Hospitalplugin\Entities\Ward;
 use Hospitalplugin\DB\DoctrineBootstrap;
 use Hospitalplugin\utils\Utils;
@@ -38,6 +37,12 @@ class WardCRUD
     public static function getWardIdForUser($userId)
     {
         return WardCRUD::getWardForUser($userId)->getId();
+    }
+    
+    public static function addWard($ward) {
+    	$entityManager = (object) DoctrineBootstrap::getEntityManager();
+    	$entityManager->persist($ward);
+    	$entityManager->flush();
     }
 
     /**
