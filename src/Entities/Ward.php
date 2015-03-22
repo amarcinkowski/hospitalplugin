@@ -124,7 +124,7 @@ class Ward
      */
     public function toString()
     {
-        return $this->getName();
+        return $this->getId() . " " . $this->getName();
     }
 
     public function getId()
