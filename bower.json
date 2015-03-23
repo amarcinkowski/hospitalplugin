@@ -7,7 +7,6 @@
 		"bootstrap-select": "*",
 		"bootstrap-datepicker": "*",
 		"vide": "*",
-		"bootstrap-table": "*",
-		"table-export": "amarcinkowski/tableExport.jquery.plugin"
+		"bootstrap-table": "*"
 	}
 }
