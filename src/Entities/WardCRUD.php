@@ -29,6 +29,7 @@ use Hospitalplugin\utils\Utils;
 
 class WardCRUD
 {
+	private static $wardsArray;
 
     /**
      */

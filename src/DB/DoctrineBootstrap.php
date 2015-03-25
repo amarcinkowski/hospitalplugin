@@ -76,7 +76,7 @@ class DoctrineBootstrap
 
     /**
      *
-     * @return entityManager
+     * @return entityManager EntityManager
      */
     private static function _getInstance()
     {
