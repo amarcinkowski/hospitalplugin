@@ -30,8 +30,6 @@ use Hospitalplugin\utils\Utils;
 class WardCRUD
 {
 
-    private static $wardsArray;
-
     /**
      */
     public static function getWardIdForUser($userId)
@@ -46,7 +44,7 @@ class WardCRUD
     }
 
     /**
-     * @param $id $id int
+     * @param $userId int
      * 
      * @return Ward Ward ward
      *

@@ -42,21 +42,11 @@ use Punction\Entities\PatientZZ;
 class PersonGenerator
 {
 
-    /**
-	 *
-	 * @var unknown
-	 */
-    static $names;
+    private static $names;
 
-    /**
-     * @var unknown
-     */
-    static $mnames;
+    private static $mnames;
 
-    /**
-     * @var unknown
-     */
-    static $fnames;
+    private static $fnames;
 
     /**
      * @return \Punction\Entities\Patient

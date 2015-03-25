@@ -57,7 +57,7 @@ $query = "
 $error = "Error: the query failed...";
 /**
  */
-$results = $wpdb->get_results($query, ARRAY_A) or wp_die($error);
+$results = $wpdb->get_results($query, ARRAY_A) || wp_die($error);
 
 $db1 = new DoctrineBootstrap();
 $entityManager = $db1->getEntityManager();
@@ -135,4 +135,3 @@ $result) {
 }
 $entityManager->flush();
 $log->info("Stop!");
-?>

@@ -62,7 +62,7 @@ class Menu
     /**
      * register menu pages
      */
-    function registerPages()
+    private function registerPages()
     {
         foreach ($this->menus as $menu) {
             $this->registerPage($menu['title'], $menu['cap'], $menu['link'], $menu['class'], $menu['callback'], $menu['type']);
@@ -73,7 +73,7 @@ class Menu
     /**
      * hide unused
      */
-    function hideMenu()
+    public function hideMenu()
     {
         foreach ($this->unregister as $menu) {
             remove_submenu_page($menu['url'], $menu['page']);
@@ -98,4 +98,3 @@ class Menu
         }
     }
 }
-?>
