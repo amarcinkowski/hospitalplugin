@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 									src : [ 'vendor/**/*.min.js',
 											'!vendor/**/defaults*',
 											'!vendor/**/jquery*',
-											'!vendor/**/sizzle*', 
+											'!vendor/**/sizzle*',
 											'!vendor/**/bootstrap-table-*' 
 											],
 									dest : './js',

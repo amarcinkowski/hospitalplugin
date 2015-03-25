@@ -2,10 +2,7 @@ language: php
 php:
   - 5.6
 before_script:
-  - npm install -g grunt-cli
-  - npm install -g bower
-  - npm install
-  - tests/install-wp-tests.sh wordpress_test root '' localhost latest
+  - mysqladmin create wordpress_test root ''
   - cp resources/.env ~
   - composer install
   - composer db

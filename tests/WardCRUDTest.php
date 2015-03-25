@@ -22,6 +22,10 @@ class WardCRUDTest extends PHPUnit_Framework_TestCase {
 		$ward = WardCRUDTest::getWard ();
 		WardCRUD::addWard ( $ward );
 	}
+	function testWard2String() {
+		$ward = WardCRUDTest::getWard ();
+		$this->assertEquals ($ward->toString(), "1 Oddział Anestezjologii i Intensywnej Terapii");
+	}
 	function testGetWards() {
 		$wards = WardCRUD::getWardsArray ();
 		$this->assertTrue ( count ( $wards ) > 0 );
