@@ -27,7 +27,7 @@ class GetPropertiesExtension extends \Twig_Extension
         $class = new \ReflectionClass($class);
         $properties = array_filter($class->getProperties(), function ($prop) use($class)
         {
-            return $prop->getDeclaringClass()->getName() == $class->getName();
+            return $prop->getDeclaringClass()->name == $class->name;
         });
         return $properties;
     }

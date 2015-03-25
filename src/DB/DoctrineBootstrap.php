@@ -102,7 +102,7 @@ class DoctrineBootstrap
     /**
      * returns enitytManager
      *
-     * @return \Hospitalplugin\DB\entityManager
+     * @return EntityManager
      */
     public static function getEntityManager()
     {

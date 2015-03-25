@@ -230,7 +230,8 @@ class Utils
         $csvxrow[0] = str_replace($encl, '', $csvxrow[0]);
         $keydata = explode($delm, $csvxrow[0]);
         $keynumb = count($keydata);
-        
+        $csv_data = array();
+        $out = array();
         if ($head === true) {
             $anzdata = count($csvxrow);
             $z = 0;
