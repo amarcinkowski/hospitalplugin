@@ -6,7 +6,6 @@
 		"fancybox": "2.1.5",
 		"bootstrap-select": "*",
 		"bootstrap-datepicker": "*",
-		"vide": "*",
 		"bootstrap-table": "*"
 	}
 }
