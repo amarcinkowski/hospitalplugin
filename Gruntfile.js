@@ -49,27 +49,6 @@ module.exports = function(grunt) {
 								{
 									expand : true,
 									flatten : true,
-									src : [ 'vendor/**/bootstrap-table-export.min.js' ],
-									dest : './js',
-									filter : 'isFile'
-								},
-								{
-									expand : true,
-									flatten : true,
-									src : [ 'vendor/**/jquery.base64.js' ],
-									dest : './js',
-									filter : 'isFile'
-								},
-								{
-									expand : true,
-									flatten : true,
-									src : [ 'vendor/**/tableExport.js' ],
-									dest : './js',
-									filter : 'isFile'
-								},
-								{
-									expand : true,
-									flatten : true,
 									src : [ 'vendor/**/bootstrap-datepicker.js' ],
 									dest : './js',
 									filter : 'isFile'
