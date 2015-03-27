@@ -66,7 +66,7 @@ class PersonGenerator
         }
         $bdate = self::getRandomBirthDate();
         $pesel = self::getRandomPesel($bdate, $sex);
-        return $firstname . ' ' . $lastname . ',' . $pesel;
+        return $firstname . ' ' . $lastname . '|' . $pesel;
     }
 
     /**

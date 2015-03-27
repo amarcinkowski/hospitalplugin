@@ -14,6 +14,6 @@ class PersonGeneratorTest extends PHPUnit_Framework_TestCase {
 	}
 	function testGeneratedPerson() {
 		$person = PersonGenerator::getRandomPerson();
-		$this->assertRegExp ( '/[A-Za-z ]+,[0-9]+/', $person );
+		$this->assertRegExp ( '/[\w ]+|[0-9]+/', $person );
 	}
 }
