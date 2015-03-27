@@ -5,8 +5,13 @@ namespace Hospitalplugin\Twig;
 use Hospitalplugin\Twig\EscapePLCharsExtension;
 
 class PLTwig {
-	
-	public static function load() {
+	/**
+	 * Loads Twig with polish settings.
+	 * 
+	 * @param string $viewsDir        	
+	 * @return void|\Twig_Environment
+	 */
+	public static function load($viewsDir) {
 		if (! class_exists ( 'Twig_Loader_Filesystem' )) {
 			echo 'Twig not activated. Make sure you activate the plugin in
     <a href="/wp-admin/plugins.php#timber">/wp-admin/plugins.php</a>';
@@ -14,7 +19,7 @@ class PLTwig {
 		}
 		\Twig_Autoloader::register ();
 		try {
-			$loader = new \Twig_Loader_Filesystem ( __DIR__ . '/../views/' );
+			$loader = new \Twig_Loader_Filesystem ( $viewsDir );
 			$twig = new \Twig_Environment ( $loader, array () );
 			// 'debug' => true
 			// 'cache' => '/tmp/'
@@ -25,5 +30,4 @@ class PLTwig {
 			echo "ERR: " . $e;
 		}
 	}
-	
 }
