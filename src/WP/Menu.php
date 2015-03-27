@@ -62,7 +62,7 @@ class Menu
     /**
      * register menu pages
      */
-    private function registerPages()
+    public function registerPages()
     {
         foreach ($this->menus as $menu) {
             $this->registerPage($menu['title'], $menu['cap'], $menu['link'], $menu['class'], $menu['callback'], $menu['type']);
@@ -83,7 +83,7 @@ class Menu
     /**
      * register using add_submenu_page
      */
-    function registerPage($title, $capabilities, $url_param, $class, $callback, $type)
+    private function registerPage($title, $capabilities, $url_param, $class, $callback, $type)
     {
         if ($type == 'submenu') {
             add_submenu_page($this->url, $title, $title, $capabilities, $url_param, array(
