@@ -1,6 +1,6 @@
 <?php
 
-namespace Hospitalplugin\WP;
+namespace Hospitalplugin\Twig;
 
 use Hospitalplugin\Twig\EscapePLCharsExtension;
 
