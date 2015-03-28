@@ -145,4 +145,4 @@ class PersonGenerator
         return implode('', $arr[array_rand($arr)]);
     }
 }
-?>
+

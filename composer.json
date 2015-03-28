@@ -12,7 +12,7 @@
 		"php" : ">=5.5",
 		"doctrine/orm" : "*",
 		"symfony/yaml" : "*",
-		"vlucas/phpdotenv" : "~1.0.6",
+		"vlucas/phpdotenv" : "1.1.*",
 		"twig/twig" : "*"
 	},
 	"require-dev" : {

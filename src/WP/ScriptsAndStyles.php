@@ -79,7 +79,7 @@ class ScriptsAndStyles
      * hospitalRegisterStyle
      * @param $file
      */
-    function hospitalRegisterStyle($file)
+    public function hospitalRegisterStyle($file)
     {
         wp_register_style('hospital_admin_style' . $file, $this->path . '/css/' . $file, array(), '1', 'screen');
         wp_enqueue_style('hospital_admin_style' . $file);
@@ -90,7 +90,7 @@ class ScriptsAndStyles
      * @param unknown $file
      * @param unknown $required
      */
-    function hospitalRegisterScript($file, $required = null, $hook = null)
+    public function hospitalRegisterScript($file, $required = null, $hook = null)
     {
         wp_enqueue_script('hospital_admin_script' . $file, $this->path . '/js/' . $file, $required);
     }
@@ -100,7 +100,7 @@ class ScriptsAndStyles
      * @param unknown $file
      * @param unknown $data
      */
-    function hospitalLocalizeScript($file, $data)
+    public function hospitalLocalizeScript($file, $data)
     {
         $json_dates = json_encode($data);
         $params = array(
@@ -145,4 +145,4 @@ class ScriptsAndStyles
         wp_dequeue_script('wplms-events-gmaps-js');
     }
 }
-?>
+
