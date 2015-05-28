@@ -55,7 +55,7 @@ class Ward
      * name
      * @Column(type="string") *
      */
-    protected $name;
+    public $name;
 
     /**
      * TODO dodac:
