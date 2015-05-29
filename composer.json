@@ -13,7 +13,8 @@
 		"doctrine/orm" : "*",
 		"symfony/yaml" : "*",
 		"vlucas/phpdotenv" : "1.1.*",
-		"twig/twig" : "*"
+		"twig/twig" : "*",
+		"phpoffice/phpexcel" : "*"
 	},
 	"require-dev" : {
 		"satooshi/php-coveralls" : "0.6.1",
@@ -25,8 +26,6 @@
 		],
 		"post-update-cmd" : [
 			"bower install"
-		],
-		"db" : "vendor/bin/doctrine orm:schema-tool:update --force --dump-sql",
-		"local": "phpunit --coverage-html build/html"
+		]
 	}
 }
