@@ -6,15 +6,15 @@ class WardCRUDTest extends PHPUnit_Framework_TestCase {
 	private static function getWard() {
 		$w = new Ward ();
 		$w->setId ( 1 );
-		$w->setInfomedica("A");
-		$w->setKomorkaOrg("B");
-		$w->setKierownik("C");
-		$w->setTypOddzialu("D");
-		$w->setAdres("E");
-		$w->setOpis("F");
-		$w->setKondygnacja("0");
-		$w->setPododdzial("1");
-		$w->setOdcinek("3");
+		$w->setInfomedica ( "A" );
+		$w->setKomorkaOrg ( "B" );
+		$w->setKierownik ( "C" );
+		$w->setTypOddzialu ( "D" );
+		$w->setAdres ( "E" );
+		$w->setOpis ( "F" );
+		$w->setKondygnacja ( "0" );
+		$w->setPododdzial ( "1" );
+		$w->setOdcinek ( "3" );
 		$w->setName ( "Oddział Anestezjologii i Intensywnej Terapii" );
 		return $w;
 	}
@@ -24,7 +24,7 @@ class WardCRUDTest extends PHPUnit_Framework_TestCase {
 	}
 	function testWard2String() {
 		$ward = WardCRUDTest::getWard ();
-		$this->assertEquals ($ward->toString(), "1 Oddział Anestezjologii i Intensywnej Terapii");
+		$this->assertEquals ( strval ( $ward ), "Oddział Anestezjologii i Intensywnej Terapii" );
 	}
 	function testGetWards() {
 		$wards = WardCRUD::getWardsArray ();
