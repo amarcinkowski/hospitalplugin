@@ -12,7 +12,7 @@
 		"php" : ">=5.3.2",
 		"doctrine/orm" : "*",
 		"symfony/yaml" : "*",
-		"vlucas/phpdotenv" : "1.1.*",
+		"vlucas/phpdotenv" : "~1.0.6*",
 		"twig/twig" : "*",
 		"phpoffice/phpexcel" : "*"
 	},
@@ -27,6 +27,6 @@
 		"post-update-cmd" : [
 			"bower install"
 		],
-        "db" : "vendor/bin/doctrine orm:schema-tool:update --force --dump-sql"
+		"db" : "vendor/bin/doctrine orm:schema-tool:update --force --dump-sql"
 	}
 }
