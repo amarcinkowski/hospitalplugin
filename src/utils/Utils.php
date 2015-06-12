@@ -344,7 +344,7 @@ class Utils
     static function cast($destination, $sourceObject)
     {
         if (is_string($destination)) {
-            $destination = new $destination();
+            $destination = new $destination(0);
         }
         $sourceReflection = new \ReflectionObject($sourceObject);
         $destinationReflection = new \ReflectionObject($destination);
