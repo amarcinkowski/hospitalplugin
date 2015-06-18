@@ -341,10 +341,10 @@ class Utils
      * @param object $sourceObject
      * @return object
      */
-    static function cast($destination, $sourceObject)
+    static function cast($destination, $sourceObject, $arguments)
     {
         if (is_string($destination)) {
-            $destination = new $destination(0);
+            $destination = new $destination($arguments);
         }
         $sourceReflection = new \ReflectionObject($sourceObject);
         $destinationReflection = new \ReflectionObject($destination);
