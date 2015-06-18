@@ -341,7 +341,7 @@ class Utils
      * @param object $sourceObject
      * @return object
      */
-    static function cast($destination, $sourceObject, $arguments)
+    static function cast($destination, $sourceObject, $arguments = NULL)
     {
         if (is_string($destination)) {
             $destination = new $destination($arguments);
