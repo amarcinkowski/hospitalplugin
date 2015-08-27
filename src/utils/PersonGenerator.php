@@ -23,8 +23,8 @@
  */
 namespace Hospitalplugin\utils;
 
-use Punction\Entities\Patient;
-use Punction\Entities\PatientZZ;
+use Hospitalplugin\Entities\Patient;
+use Hospitalplugin\Entities\PatientZZ;
 
 /**
  * PersonGenerator
@@ -49,7 +49,7 @@ class PersonGenerator
     private static $fnames;
 
     /**
-     * @return \Punction\Entities\Patient
+     * @return \Hospitalplugin\Entities\Patient
 	 */
     public static function getRandomPerson()
     {

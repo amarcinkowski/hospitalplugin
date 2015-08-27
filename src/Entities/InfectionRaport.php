@@ -98,7 +98,7 @@ class InfectionRaport {
 	 * @param int $id
 	 *        	ID
 	 *        	
-	 * @return \Punction\Entities\Patient
+	 * @return \Hospitalplugin\Entities\Patient
 	 */
 	public function setId($id) {
 		$this->id = $id;

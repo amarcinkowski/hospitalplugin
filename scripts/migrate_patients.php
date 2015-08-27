@@ -21,7 +21,7 @@
  * @since     File available since Release 1.0.0
  * PHP Version 5
  */
-use Punction\Entities\PatientZZ;
+use Hospitalplugin\Entities\PatientZZ;
 use Punction\DB\DoctrineBootstrap;
 
 if (! defined ( 'ABSPATH' )) {
