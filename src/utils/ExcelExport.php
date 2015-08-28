@@ -15,7 +15,12 @@ class ExcelExport {
 				'excel_export' 
 		), 1 );
 	}
-	
+	/**
+	 * 
+	 */
+	public static function getColumnLetter($num) {
+		return chr ( 65 + $num );
+	}
 	/**
 	 */
 	static function excel_export() {
@@ -82,4 +87,39 @@ class ExcelExport {
 		$objWriter->save ( 'php://output' );
 		exit ();
 	}
+	/**
+	 * remove special chars and words from string 
+	 * @param unknown $string        	
+	 */
+	private static function clearName($string, $removeWords) {
+		$string = str_replace ( ' ', '-', $string );
+		$string = preg_replace ( '/[^A-Za-z0-9\-]/', '', $string );
+		foreach ( $removeWords as $word ) {
+			$string = str_replace ( $word, '', $string );
+		}
+		$string = substr ( $string, 0, 29 );
+		return $string;
+	}
+	/**
+	 * @param unknown $objPHPExcel        	
+	 * @param unknown $title        	
+	 */
+	static function printTitle($objPHPExcel, $title) {
+		$objPHPExcel->getActiveSheet ()->setTitle ( ExcelExport::clearName ( $title, array('ddzia') ), true );
+		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 1, $title );
+	}
+	/**
+	 *
+	 * @param unknown $objPHPExcel
+	 */
+	static function newSheet($objPHPExcel, $index = -1) {
+		if ($index < 0) {
+			$index = $objPHPExcel->getSheetCount ();
+		}
+		$objPHPExcel->createSheet ( $index );
+		$objPHPExcel->setActiveSheetIndex ( $index );
+		$sheet = $objPHPExcel->getActiveSheet ();
+		return $sheet;
+	}
+	
 }

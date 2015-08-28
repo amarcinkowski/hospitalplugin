@@ -8,37 +8,14 @@ use Hospitalplugin\Entities\PatientRaport;
 use Hospitalplugin\Entities\WardCRUD;
 
 class ExcelExportPunction {
+	
 	/**
 	 *
 	 * @param unknown $id        	
 	 */
-	private static function getData($id) {
-		PatientRaport::updateNativeRaport ();
-		$raport = PatientRaport::getRaportBetweenDatesNative ( $id, '2014-06-01', (new \DateTime())->format("Y-m-d") );
+	private static function getData($id, $type) {
+		$raport = PatientRaport::getRaportBetweenDates ( $id, $type, '2014-06-01', (new \DateTime ())->format ( "Y-m-d" ) );
 		return $raport;
-	}
-	/**
-	 */
-	private static function getColumns() {
-		return array (
-				'Kategoria I' => '1',
-				'Kategoria 2' => '2',
-				'Kategoria 3' => '3',
-				'b.k.' => '0' 
-		);
-	}
-	/**
-	 *
-	 * @param unknown $objPHPExcel        	
-	 */
-	private static function newSheet($objPHPExcel, $index = -1) {
-		if ($index < 0) {
-			$index = $objPHPExcel->getSheetCount ();
-		}
-		$objPHPExcel->createSheet ( $index );
-		$objPHPExcel->setActiveSheetIndex ( $index );
-		$sheet = $objPHPExcel->getActiveSheet ();
-		return $sheet;
 	}
 	/**
 	 *
@@ -48,132 +25,64 @@ class ExcelExportPunction {
 	private static function printHeaders($objPHPExcel, $cols) {
 		$count = 1;
 		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 2, "Data" );
-		foreach ( $cols as $col => $sym ) {
+		foreach ( $cols as $col ) {
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, 2, sprintf ( "%7s", $col ) );
 		}
 	}
 	/**
 	 */
-	private static function printData($objPHPExcel, $data, $cols) {
+	private static function printData($objPHPExcel, $data, $type) {
 		$row = 3;
+		$lastColumn = 1;
+		$colNumberOfPatients = ExcelExport::getColumnLetter ( 1 );
+		$indexes = PatientRaport::getIndexes ( $type );
 		foreach ( $data as $rowKey => $rowValue ) {
 			// 1 col: date
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, $row, json_encode ( $rowKey ) );
 			$count = 1;
-			// 2-4 cols: cat1 cat2 cat3
-			foreach ( $cols as $col => $sym ) {
-				
-				$value = isset ( $rowValue [$sym] ) ? $rowValue [$sym] : "-";
+			// 2-5 cols: N1 N2 N3 N0
+			foreach ( $indexes as $index ) {
+				$value = isset ( $rowValue [$index] ) ? $rowValue [$index] : "0";
 				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, $row, $value );
 			}
-			// 5 col: num of categorized
-			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 5, $row, '=SUM(B' . $row . ':D' . $row . ')' );
+			// 6 col: num of categorized (N = N1+N2+N3)
+			$colHighestCategory = ExcelExport::getColumnLetter ( $count - 2 );
+			$colNumberOfPatients = ExcelExport::getColumnLetter ( $count );
+			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, $row, '=SUM(B' . $row . ':' . $colHighestCategory . $row . ')' );
+			$tpb = PatientRaport::getTpb ( $type );
+			// 7-11 tpb1, tpb2, tpb3, 0 (no-cat), 2 (add)
+			foreach ( $tpb as $tpbn ) {
+				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, $row, $tpbn );
+			}
+			// 9-11: Tpb1*N1,Tpb2*N2,Tpb3*N3+2xN
+			$tpbSize = count ( $tpb );
+			foreach ( $tpb as $tpbn ) {
+				$col1Letter = ExcelExport::getColumnLetter ( $count - 2 * $tpbSize );
+				$col2Letter = ExcelExport::getColumnLetter ( $count - $tpbSize );
+				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, $row, '=' . $col1Letter . $row . "*" . $col2Letter . $row );
+			}
+			// SUM Tpb
+			$col3Letter = ExcelExport::getColumnLetter ( $count - $tpbSize );
+			$col4Letter = ExcelExport::getColumnLetter ( $count - 1 );
+			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $count ++, $row, '=SUM(' . $col3Letter . $row . ":" . $col4Letter . $row . ")" );
 			$row ++;
+			$lastColumn = $count - 1;
 		}
-		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 1, 1, '=COUNTIFS(F3:F' . ($row - 1) . ',">0")' );
+		// number of categorization days
+		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 1, 1, '=COUNTIFS(' . $colNumberOfPatients . '3:' . $colNumberOfPatients . ($row - 1) . ',">0")' );
+		// sum
+		$col5Letter = ExcelExport::getColumnLetter ( $lastColumn );
+		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 2, 1, '=SUM(' . $col5Letter . '3:' . $col5Letter . ($row - 1) . ')/60' );
 		return $row;
 	}
-	/**
-	 *
-	 * @param unknown $string        	
-	 */
-	private static function clearName($string) {
-		$string = str_replace ( ' ', '-', $string );
-		$string = preg_replace ( '/[^A-Za-z0-9\-]/', '', $string );
-		$string = str_replace ( 'ddzia', '', $string );
-		$string = substr ( $string, 0, 29 );
-		return $string;
-	}
-	/**
-	 *
-	 * @param unknown $objPHPExcel        	
-	 * @param unknown $title        	
-	 */
-	private static function printTitle($objPHPExcel, $title) {
-		$objPHPExcel->getActiveSheet ()->setTitle ( ExcelExportPunction::clearName ( $title ), true );
-		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 1, $title );
-	}
-	/**
-	 * based on
-	 * Zalecenie Konsultanta Krajowego w dz.
-	 * pielęgniarstwa w sprawie realizacji przepisów rozporządzenia Ministra Zdrowia z dnia 28 grudnia 2012 roku w sprawie sposobu ustalenia minimalnych norm zatrudnienia pielęgniarek i położnych w podmiotach leczniczych niebędących przedsiębiorcami.
-	 * http://www.nipip.pl/index.php/prawo/opiniekk/w-dz-pielegniarstwa/konsultant-krajowy-dr-hab-n-hum-maria-kozka/2265-zalecenie-konsultanta-krajowego-w-dz-pielegniarstwa-w-sprawie-realizacji-przepisow-rozporzadzenia-ministra-zdrowia-z-dnia-28-grudnia-2012-roku-w-sprawie-sposobu-ustalenia-minimalnych-norm-zatrudnienia-pielegniarek-i-poloznych-w-podmiotach-leczniczych-nieb
-	 *
-	 * @param unknown $type        	
-	 */
-	private static function getTpb($type) {
-		if ($type == 'ZZ' || $type == 'PED') {
-			return array (
-					38,
-					95,
-					159,
-					'',
-					2 
-			);
-		} else if ($type == 'PSY') {
-			return array (
-					40,
-					100,
-					160,
-					'',
-					2 
-			);
-		} else if ($type == 'POR') {
-			return array (
-					137,
-					274,
-					328,
-					'',
-					2 
-			);
-		} else if ($type == 'POL') {
-			return array (
-					72,
-					100,
-					98,
-					'',
-					2 
-			);
-		}
-	}
-	/**
-	 *
-	 * @param PHPExcel $objPHPExcel        	
-	 */
-	private static function printFooter($objPHPExcel, $cols, $row, $typOddzialu) {
-		$objPHPExcel->getActiveSheet ()->getStyle ( 'A' . $row . ':AA' . ($row + 1) )->getFont ()->setBold ( true );
-		// SUM N1, N2, N3
-		for($i = 0; $i < 5; $i ++) {
-			$column = $i + 1;
-			$colLetter = chr ( 65 + $column );
-			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $column, $row, "=sum(" . $colLetter . "3" . ":" . $colLetter . ($row - 1) . ")" );
-		}
-		$row ++;
-		// Tpb1, Tpb2, Tpb3
-		$tpb = ExcelExportPunction::getTpb ( $typOddzialu ); // 38,95,159
-		for($i = 0; $i < count ( $tpb ); $i ++) {
-			$column = $i + 1;
-			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $column, $row, $tpb [$i] );
-		}
-		$row ++;
-		// N1 * Tpb1, ...
-		for($i = 0; $i < count ( $tpb ); $i ++) {
-			$column = $i + 1;
-			$colLetter = chr ( 65 + $column );
-			$oneUp = $colLetter . ($row - 1);
-			$twoUp = $colLetter . ($row - 2);
-			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $column, $row, "=" . $oneUp . "*" . $twoUp . "/60" );
-		}
-		// SUM Tpb1 + Tpb2 + Tpb3 + 2xN
-		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 2, 1, '=sum(B' . $row . ':F' . $row . ')' );
-	}
+	
 	/**
 	 *
 	 * @param unknown $objPHPExcel        	
 	 */
 	static function fillSummary($objPHPExcel) {
-		ExcelExportPunction::newSheet ( $objPHPExcel, 0 );
-		ExcelExportPunction::printTitle ( $objPHPExcel, "Raport" );
+		ExcelExport::newSheet ( $objPHPExcel, 0 );
+		ExcelExport::printTitle ( $objPHPExcel, "Raport" );
 		$sheetCount = $objPHPExcel->getSheetCount ();
 		$objPHPExcel->getActiveSheet ()->setCellValue ( 'A2', 'Oddz.' );
 		$objPHPExcel->getActiveSheet ()->setCellValue ( 'B2', 'Dni' );
@@ -210,31 +119,23 @@ class ExcelExportPunction {
 	}
 	static function fillData($objPHPExcel) {
 		// no time limit for this script
-
-		$time_start = microtime(true);
-		
 		set_time_limit ( 0 );
+		$time_start = microtime ( true );
 		// remove first default sheet
 		$objPHPExcel->removeSheetByIndex ( 0 );
 		// get wards
 		$wards = WardCRUD::getWardsArray ();
 		foreach ( $wards as $ward ) {
-			ExcelExportPunction::newSheet ( $objPHPExcel );
+			ExcelExport::newSheet ( $objPHPExcel );
 			$wardName = $ward->name . " (" . $ward->getTypOddzialu () . ")";
-			ExcelExportPunction::printTitle ( $objPHPExcel, $wardName );
-			$data = ExcelExportPunction::getData ( $ward->id );
-			$cols = ExcelExportPunction::getColumns ();
+			ExcelExport::printTitle ( $objPHPExcel, $wardName );
+			$data = ExcelExportPunction::getData ( $ward->id, $ward->getTypOddzialu () );
+			$cols = PatientRaport::getColumns ( $ward->getTypOddzialu () );
 			ExcelExportPunction::printHeaders ( $objPHPExcel, $cols );
-			$lastRow = ExcelExportPunction::printData ( $objPHPExcel, $data, $cols );
-			ExcelExportPunction::printFooter ( $objPHPExcel, $cols, $lastRow, $ward->getTypOddzialu () );
+			ExcelExportPunction::printData ( $objPHPExcel, $data, $ward->getTypOddzialu () );
 			ExcelExport::styleActiveSheet ( $objPHPExcel );
 		}
 		ExcelExportPunction::fillSummary ( $objPHPExcel );
-		\PHPExcel_Calculation::getInstance()->clearCalculationCache();
-		$time_end = microtime(true);
-		$time = $time_end - $time_start;
-		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 100, $time . " s" );
-		\PHPExcel_Calculation::getInstance()->disableCalculationCache();
-		
+		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 100, "summary " . ($time_start - microtime ( true )) . " s" );
 	}
 }
