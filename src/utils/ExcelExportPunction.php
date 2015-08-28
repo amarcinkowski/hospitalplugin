@@ -102,7 +102,7 @@ class ExcelExportPunction {
 	 * @param unknown $type        	
 	 */
 	private static function getTpb($type) {
-		if ($type == 'ZZ' || $type = 'PED') {
+		if ($type == 'ZZ' || $type == 'PED') {
 			return array (
 					38,
 					95,
