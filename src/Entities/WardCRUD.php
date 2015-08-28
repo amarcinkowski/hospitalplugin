@@ -68,7 +68,7 @@ class WardCRUD
     {
         if (WardCRUD::$wardsArray == null) {
             $entityManager = (object) DoctrineBootstrap::getEntityManager();
-            $query = $entityManager->createQuery('select w FROM Hospitalplugin\Entities\Ward w');
+            $query = $entityManager->createQuery('select w FROM Hospitalplugin\Entities\Ward w ORDER BY w.name');
             $wards = $query->getResult();
             WardCRUD::$wardsArray = $wards;
         }

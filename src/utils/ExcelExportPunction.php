@@ -13,7 +13,8 @@ class ExcelExportPunction {
 	 * @param unknown $id        	
 	 */
 	private static function getData($id) {
-		$raport = PatientRaport::getRaportBetweenDates ( $id, '2015-05-05', '2015-06-03' );
+		PatientRaport::updateNativeRaport ();
+		$raport = PatientRaport::getRaportBetweenDatesNative ( $id, '2014-06-01', '2015-08-27' );
 		return $raport;
 	}
 	/**
@@ -30,9 +31,12 @@ class ExcelExportPunction {
 	 *
 	 * @param unknown $objPHPExcel        	
 	 */
-	private static function newSheet($objPHPExcel) {
-		$objPHPExcel->createSheet ( 0 );
-		$objPHPExcel->setActiveSheetIndex ( 0 );
+	private static function newSheet($objPHPExcel, $index = -1) {
+		if ($index < 0) {
+			$index = $objPHPExcel->getSheetCount ();
+		}
+		$objPHPExcel->createSheet ( $index );
+		$objPHPExcel->setActiveSheetIndex ( $index );
 		$sheet = $objPHPExcel->getActiveSheet ();
 		return $sheet;
 	}
@@ -90,15 +94,43 @@ class ExcelExportPunction {
 		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 1, $title );
 	}
 	/**
+	 * based on
+	 * Zalecenie Konsultanta Krajowego w dz.
+	 * pielęgniarstwa w sprawie realizacji przepisów rozporządzenia Ministra Zdrowia z dnia 28 grudnia 2012 roku w sprawie sposobu ustalenia minimalnych norm zatrudnienia pielęgniarek i położnych w podmiotach leczniczych niebędących przedsiębiorcami.
+	 * http://www.nipip.pl/index.php/prawo/opiniekk/w-dz-pielegniarstwa/konsultant-krajowy-dr-hab-n-hum-maria-kozka/2265-zalecenie-konsultanta-krajowego-w-dz-pielegniarstwa-w-sprawie-realizacji-przepisow-rozporzadzenia-ministra-zdrowia-z-dnia-28-grudnia-2012-roku-w-sprawie-sposobu-ustalenia-minimalnych-norm-zatrudnienia-pielegniarek-i-poloznych-w-podmiotach-leczniczych-nieb
 	 *
 	 * @param unknown $type        	
 	 */
 	private static function getTpb($type) {
-		if ($type == 'ZZ') {
+		if ($type == 'ZZ' || $type = 'PED') {
 			return array (
 					38,
 					95,
 					159,
+					'',
+					2 
+			);
+		} else if ($type == 'PSY') {
+			return array (
+					40,
+					100,
+					160,
+					'',
+					2 
+			);
+		} else if ($type == 'POR') {
+			return array (
+					137,
+					274,
+					328,
+					'',
+					2 
+			);
+		} else if ($type == 'POL') {
+			return array (
+					72,
+					100,
+					98,
 					'',
 					2 
 			);
@@ -108,7 +140,7 @@ class ExcelExportPunction {
 	 *
 	 * @param PHPExcel $objPHPExcel        	
 	 */
-	private static function printFooter($objPHPExcel, $cols, $row) {
+	private static function printFooter($objPHPExcel, $cols, $row, $typOddzialu) {
 		$objPHPExcel->getActiveSheet ()->getStyle ( 'A' . $row . ':AA' . ($row + 1) )->getFont ()->setBold ( true );
 		// SUM N1, N2, N3
 		for($i = 0; $i < 5; $i ++) {
@@ -118,7 +150,7 @@ class ExcelExportPunction {
 		}
 		$row ++;
 		// Tpb1, Tpb2, Tpb3
-		$tpb = ExcelExportPunction::getTpb ( 'ZZ' ); // 38,95,159
+		$tpb = ExcelExportPunction::getTpb ( $typOddzialu ); // 38,95,159
 		for($i = 0; $i < count ( $tpb ); $i ++) {
 			$column = $i + 1;
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( $column, $row, $tpb [$i] );
@@ -140,8 +172,8 @@ class ExcelExportPunction {
 	 * @param unknown $objPHPExcel        	
 	 */
 	static function fillSummary($objPHPExcel) {
-		ExcelExportPunction::newSheet ( $objPHPExcel );
-		ExcelExportPunction::printTitle ( $objPHPExcel, "Podsumowanie" );
+		ExcelExportPunction::newSheet ( $objPHPExcel, 0 );
+		ExcelExportPunction::printTitle ( $objPHPExcel, "Raport" );
 		$sheetCount = $objPHPExcel->getSheetCount ();
 		$objPHPExcel->getActiveSheet ()->setCellValue ( 'A2', 'Oddz.' );
 		$objPHPExcel->getActiveSheet ()->setCellValue ( 'B2', 'Dni' );
@@ -166,17 +198,22 @@ class ExcelExportPunction {
 				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 4, $row, "=D" . $row . "*110%" );
 				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 5, $row, "=D" . $row . "*125%" );
 				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 6, $row, "1531" );
-				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 7, $row, "=E" . $row . "*365/G" . $row );
-				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 8, $row, "=F" . $row . "*365/G" . $row );
+				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 7, $row, "=IF(E" . $row . ">0,E" . $row . "*365/G" . $row . ",\"-\")" );
+				$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 8, $row, "=IF(F" . $row . ">0,F" . $row . "*365/G" . $row . ",\"-\")" );
 			}
 			$objPHPExcel->getActiveSheet ()->getStyle ( 'C3:I100' )->getNumberFormat ()->setFormatCode ( '#,##0.0' );
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, $row + 1, "* Czas pielęgnacji pośredniej jako 10% czasu pielęgnacji bezpośredniej" );
 			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, $row + 2, "** Czas pielęgnacji pośredniej jako 25% czasu pielęgnacji bezpośredniej" );
-			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, $row + 3, "*** Czas dyspozycyjny z Rozporządzenia MZ: 202 dni x 7,58 h" );
+			$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, $row + 3, "*** Czas dyspozycyjny - propozycja z Rozporządzenia MZ: 202 dni x 7,58 h" );
 			ExcelExport::styleActiveSheet ( $objPHPExcel );
 		}
 	}
 	static function fillData($objPHPExcel) {
+		// no time limit for this script
+		set_time_limit ( 0 );
+		// remove first default sheet
+		$objPHPExcel->removeSheetByIndex ( 0 );
+		// get wards
 		$wards = WardCRUD::getWardsArray ();
 		foreach ( $wards as $ward ) {
 			ExcelExportPunction::newSheet ( $objPHPExcel );
@@ -186,7 +223,7 @@ class ExcelExportPunction {
 			$cols = ExcelExportPunction::getColumns ();
 			ExcelExportPunction::printHeaders ( $objPHPExcel, $cols );
 			$lastRow = ExcelExportPunction::printData ( $objPHPExcel, $data, $cols );
-			ExcelExportPunction::printFooter ( $objPHPExcel, $cols, $lastRow );
+			ExcelExportPunction::printFooter ( $objPHPExcel, $cols, $lastRow, $ward->getTypOddzialu () );
 			ExcelExport::styleActiveSheet ( $objPHPExcel );
 		}
 		ExcelExportPunction::fillSummary ( $objPHPExcel );
