@@ -14,7 +14,7 @@ class ExcelExportPunction {
 	 */
 	private static function getData($id) {
 		PatientRaport::updateNativeRaport ();
-		$raport = PatientRaport::getRaportBetweenDatesNative ( $id, '2014-06-01', '2015-08-27' );
+		$raport = PatientRaport::getRaportBetweenDatesNative ( $id, '2014-06-01', (new \DateTime())->format("Y-m-d") );
 		return $raport;
 	}
 	/**
@@ -210,6 +210,9 @@ class ExcelExportPunction {
 	}
 	static function fillData($objPHPExcel) {
 		// no time limit for this script
+
+		$time_start = microtime(true);
+		
 		set_time_limit ( 0 );
 		// remove first default sheet
 		$objPHPExcel->removeSheetByIndex ( 0 );
@@ -227,5 +230,11 @@ class ExcelExportPunction {
 			ExcelExport::styleActiveSheet ( $objPHPExcel );
 		}
 		ExcelExportPunction::fillSummary ( $objPHPExcel );
+		\PHPExcel_Calculation::getInstance()->clearCalculationCache();
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+		$objPHPExcel->getActiveSheet ()->setCellValueByColumnAndRow ( 0, 100, $time . " s" );
+		\PHPExcel_Calculation::getInstance()->disableCalculationCache();
+		
 	}
 }
