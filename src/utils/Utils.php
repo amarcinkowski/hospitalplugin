@@ -284,7 +284,7 @@ class Utils
             chr(0x9D) => chr(0xBB),
             chr(0xA1) => chr(0xB7),
             chr(0xA5) => chr(0xA1),
-            chr(0xBC) => chr(0xA5),
+            //chr(0xBC) => chr(0xA5),
             
             // chr ( 0x9F ) => chr ( 0xBC ),
             chr(0xB9) => chr(0xB1),
@@ -329,7 +329,8 @@ class Utils
             chr(0xBF) => '&#380;',
             
             // ź
-            chr(0x9F) => '&#378;'
+            chr(0x9F) => '&#378;',
+        	chr(0xBC) => '&#378;'
         );
         return html_entity_decode(mb_convert_encoding(strtr($text, $map), 'UTF-8', 'ISO-8859-2'), ENT_QUOTES, 'UTF-8');
     }
