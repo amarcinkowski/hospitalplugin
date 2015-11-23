@@ -45,7 +45,7 @@ class User {
 	
 	/**
 	 * id
-	 * @Id @Column(type="integer") @GeneratedValue
+	 * @Id @Column(type="integer", nullable=false) @GeneratedValue
 	 */
 	protected $id;
 	

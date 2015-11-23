@@ -24,7 +24,6 @@
  */
 namespace Hospitalplugin\Entities;
 
-
 /**
  * Patient
  *
@@ -103,14 +102,11 @@ class Patient {
 	public $kategoriaPacjenta = 0;
 	
 	/**
-	 * IF PATIENT WAS ADDED BY THE USER
-	 * JEŻELI PACJENT DOPISANY PRZEZ UŻYTKOWNIKA
-	 *
 	 * @ManyToOne(targetEntity="Hospitalplugin\Entities\User")
-	 * @JoinColumn(name="userId", referencedColumnName="id")
+	 * @JoinColumn(name="userId", referencedColumnName="id", nullable=false)
 	 */
-	protected $user;
-	
+	public $user;
+	 	
 	/**
 	 * Constructor
 	 *
@@ -421,5 +417,4 @@ class Patient {
 		$string = str_replace ( "\n", "", $string );
 		return $string;
 	}
-	
 }
