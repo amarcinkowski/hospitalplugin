@@ -104,9 +104,10 @@ class Patient {
 	/**
 	 * @ManyToOne(targetEntity="Hospitalplugin\Entities\User")
 	 * @JoinColumn(name="userId", referencedColumnName="id", nullable=false)
+	 * @Column(columnDefinition="INT(11) NOT NULL DEFAULT 0")
 	 */
 	public $user;
-	 	
+	
 	/**
 	 * Constructor
 	 *
