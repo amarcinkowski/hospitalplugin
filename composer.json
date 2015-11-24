@@ -27,6 +27,6 @@
 		"post-update-cmd" : [
 			"bower install"
 		],
-		"db" : "vendor/bin/doctrine orm:schema-tool:create --dump-sql"
+		"db" : "vendor/bin/doctrine orm:schema-tool:create"
 	}
 }
