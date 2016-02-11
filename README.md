@@ -1,4 +1,4 @@
-#Hospital Open Source PHP Library [![Build Status](https://travis-ci.org/amarcinkowski/hospitalplugin.svg?branch=master)](https://travis-ci.org/amarcinkowski/hospitalplugin) [![Coverage Status](https://coveralls.io/repos/amarcinkowski/hospitalplugin/badge.svg?branch=master)](https://coveralls.io/r/amarcinkowski/hospitalplugin?branch=master)
+#Hospital Open Source PHP Library [![Build Status](https://travis-ci.org/amarcinkowski/hospitalplugin.svg?branch=master)](https://travis-ci.org/amarcinkowski/hospitalplugin) [![Coverage Status](https://coveralls.io/repos/amarcinkowski/hospitalplugin/badge.svg?branch=master)](https://coveralls.io/r/amarcinkowski/hospitalplugin?branch=master) [![Code Climate](https://codeclimate.com/github/amarcinkowski/hospitalplugin/badges/gpa.svg)](https://codeclimate.com/github/amarcinkowski/hospitalplugin)
 
 [![Join the chat at https://gitter.im/amarcinkowski/hospitalplugin](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/amarcinkowski/hospitalplugin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
