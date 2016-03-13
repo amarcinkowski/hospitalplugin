@@ -81,7 +81,7 @@ class ScriptsAndStyles
      */
     public function hospitalRegisterStyle($file)
     {
-        wp_register_style('hospital_admin_style' . $file, $this->path . '/css/' . $file, array(), '1', 'screen');
+        wp_register_style('hospital_admin_style' . $file, $this->path . '/css/' . $file, array(), '1', 'all');
         wp_enqueue_style('hospital_admin_style' . $file);
     }
 
