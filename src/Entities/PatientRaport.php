@@ -179,6 +179,13 @@ class PatientRaport {
 					0,
 					2
 			);
+		} else if ($type == 'DIA') {
+			return array (
+					52,
+					112,
+					0,
+					2
+			);
 		} else if ($type == 'POL') {
 			return array (
 					72,
